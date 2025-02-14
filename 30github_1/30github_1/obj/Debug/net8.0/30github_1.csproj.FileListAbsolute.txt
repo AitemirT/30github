@@ -1,0 +1,15 @@
+/Users/taitemir/Desktop/30github/30github_1/30github_1/bin/Debug/net8.0/30github_1
+/Users/taitemir/Desktop/30github/30github_1/30github_1/bin/Debug/net8.0/30github_1.deps.json
+/Users/taitemir/Desktop/30github/30github_1/30github_1/bin/Debug/net8.0/30github_1.runtimeconfig.json
+/Users/taitemir/Desktop/30github/30github_1/30github_1/bin/Debug/net8.0/30github_1.dll
+/Users/taitemir/Desktop/30github/30github_1/30github_1/bin/Debug/net8.0/30github_1.pdb
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.GeneratedMSBuildEditorConfig.editorconfig
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.AssemblyInfoInputs.cache
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.AssemblyInfo.cs
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.csproj.CoreCompileInputs.cache
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.sourcelink.json
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.dll
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/refint/30github_1.dll
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.pdb
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/30github_1.genruntimeconfig.cache
+/Users/taitemir/Desktop/30github/30github_1/30github_1/obj/Debug/net8.0/ref/30github_1.dll
