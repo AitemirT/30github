@@ -2,15 +2,10 @@
 
 class Program
 {
+    static Random random = new Random();
     static void Main(string[] args)
     {
-        int[] nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        int target = 16;
-        int[] res = TwoSum(nums, target);
-        foreach (int numbers in res)
-        {
-            Console.WriteLine(numbers);
-        }
+        FeedTheCat();
     }
     public static int[] TwoSum(int[] nums, int target) {
         int[] result = new int[2];
@@ -25,6 +20,59 @@ class Program
         }
         return result;
     }
+
+    public static void FeedTheCat()
+    {
+        Food[] foods = new[] { Food.meat, Food.milk, Food.corn, Food.chicken, Food.fish };
+        int satietyOfTheCat = random.Next(1, 101);
+        int disiredSatiety = random.Next(1, 101);
+        int satiety = 0;
+        while (true)
+        {
+            if (satietyOfTheCat > disiredSatiety)
+            {
+                Console.WriteLine("Current satiety: " + satietyOfTheCat);
+                Console.WriteLine("Disired satiety: " + disiredSatiety);
+                Console.WriteLine("The cat should go on a diet");
+                break;
+            }
+            else if (satietyOfTheCat == disiredSatiety)
+            {
+                Console.WriteLine("Your cat is full!");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Current Satiety: " + satietyOfTheCat);
+                Console.WriteLine("Disired Satiety: " + disiredSatiety);
+                Console.WriteLine("Menu");
+                Console.WriteLine("0 - Meat\n1 - Milk\n2 - Corn\n3 - Chicken\n4 - fish");
+                Console.WriteLine("What will you feed the cat?");
+                int index = random.Next(foods.Length);
+                switch (index)
+                {
+                    case 0:
+                        satiety = (int)Food.meat;
+                        break;
+                    case 1:
+                        satiety = (int)Food.milk;
+                        break;
+                    case 2:
+                        satiety = (int)Food.corn;
+                        break;
+                    case 3:
+                        satiety = (int)Food.chicken;
+                        break;
+                    case 4:
+                        satiety = (int)Food.fish;
+                        break;
+                }
+
+                satietyOfTheCat += satiety;
+                Console.WriteLine("The cat ate " + index + " and its satiety increased to: " + satietyOfTheCat);
+            }
+        }
+    }
     
     public static bool IsPalindrome(int x) {
         if(x < 0) return false;
@@ -33,5 +81,5 @@ class Program
             if(strX[i] != strX[strX.Length - i - 1]) return false;
         }
         return true;
-    }  
+    }
 }
