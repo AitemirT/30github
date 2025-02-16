@@ -5,7 +5,26 @@ class Program
     static Random random = new Random();
     static void Main(string[] args)
     {
-        FeedTheCat();
+        Console.WriteLine("Enter number:");
+        int number = int.Parse(Console.ReadLine());
+        for (int i = 1; i <= number; i++)
+        {
+            Console.WriteLine(i);
+        }
+
+        while (true)
+        {
+            Console.WriteLine("Ведите число больше 0:");
+            number = int.Parse(Console.ReadLine());
+            if (number > 0)
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Число должно быть больше 0. Попробуйте снова.");
+            }
+        }
     }
     public static int[] TwoSum(int[] nums, int target) {
         int[] result = new int[2];
