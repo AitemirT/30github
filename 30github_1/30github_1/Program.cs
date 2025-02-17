@@ -5,7 +5,7 @@ class Program
     static Random random = new Random();
     static void Main(string[] args)
     {
-        Console.WriteLine("Enter number:");
+        /*Console.WriteLine("Enter number:");
         int number = int.Parse(Console.ReadLine());
         for (int i = 1; i <= number; i++)
         {
@@ -24,6 +24,17 @@ class Program
             {
                 Console.WriteLine("Число должно быть больше 0. Попробуйте снова.");
             }
+        }*/
+        int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        string strs = "just a string";
+        for (int i = 0; i < numbers.Length - 1; i++)
+        {
+            Console.WriteLine(numbers[i] + numbers[i + 1]);
+        }
+
+        foreach (var s in strs)
+        {
+            Console.WriteLine(s);
         }
     }
     public static int[] TwoSum(int[] nums, int target) {
