@@ -1,3 +1,5 @@
+using webApp.DTOs.Employee;
+
 namespace webApp.DTOs;
 
 public class ProjectDto
@@ -13,5 +15,6 @@ public class ProjectDto
     public string ExecutorCompanyName { get; set; }
     public int ProjectManagerId { get; set; }
     public string ProjectManagerName { get; set; }
+    public List<EmployeeDto> ProjectEmployees { get; set; } = new();
     
 }
