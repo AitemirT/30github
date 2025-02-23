@@ -13,4 +13,12 @@ public static class CompanyMapper
             Name = company.Name,
         };
     }
+
+    public static Company ToCompanyFromCreate(this CreateCompanyDto createCompanyDto)
+    {
+        return new Company()
+        {
+            Name = createCompanyDto.Name,
+        };
+    }
 }
