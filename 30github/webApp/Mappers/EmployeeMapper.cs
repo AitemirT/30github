@@ -16,4 +16,15 @@ public static class EmployeeMapper
             MiddleName = employee.MiddleName,
         };
     }
+    
+    public static Employee ToEmployeeFromCreateEmployeeDto(this CreateEmployeeDto employeeDto)
+    {
+        return new Employee()
+        {
+            FirstName = employeeDto.FirstName,
+            LastName = employeeDto.LastName,
+            Email = employeeDto.Email,
+            MiddleName = employeeDto.MiddleName,
+        };
+    }
 }
