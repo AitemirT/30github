@@ -52,7 +52,7 @@ public class EmployeeRepository : IEmployeeRepository
         return existingEmployee;
     }
 
-    public async Task<Employee> DeleteEmployeeAsync(int id)
+    public async Task<Employee?> DeleteEmployeeAsync(int id)
     {
         var employee = await _context.Employees
             .Include(e => e.ProjectEmployees)

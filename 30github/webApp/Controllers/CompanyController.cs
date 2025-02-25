@@ -32,7 +32,7 @@ public class CompanyController : ControllerBase
         Company? company = await _companyRepository.GetCompanyByIdAsync(id);
         return company == null ? NotFound() : Ok(company.ToCompanyDto());
     }
-
+    [HttpPost]
     public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyDto createCompanyDto)
     {
         if(!ModelState.IsValid) return BadRequest();
@@ -40,14 +40,14 @@ public class CompanyController : ControllerBase
         var result = await _companyRepository.CreateCompanyAsync(company);
         return result == null ? StatusCode(500, "Не удалось сохранить компанию") : CreatedAtAction(nameof(GetCompanyById), new { id = company.Id }, result.ToCompanyDto());
     }
-
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateCompany(int id, [FromBody] UpdateCompanyDto updateCompanyDto)
     {
         if(!ModelState.IsValid) return BadRequest();
         var company = await _companyRepository.UpdateCompanyAsync(id, updateCompanyDto);
         return company == null ? NotFound() : Ok(company.ToCompanyDto());
     }
-
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCompany(int id)
     {
         var company = await _companyRepository.DeleteCompanyAsync(id);
