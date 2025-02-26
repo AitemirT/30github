@@ -1,4 +1,5 @@
 using webApp.DTOs;
+using webApp.DTOs.Employee;
 using webApp.Models;
 
 namespace webApp.Mappers;
@@ -19,6 +20,28 @@ public static class ProjectMapper
             ProjectManagerName = project?.ProjectManager != null
                 ? $"{project.ProjectManager.FirstName} {project.ProjectManager.LastName}"
                 : string.Empty,
+            ProjectEmployees = project?.ProjectEmployees
+                .Where(pe => pe.Employee != null)
+                .Select(pe => new EmployeeDto()
+                {
+                    Id = pe.Employee.Id,
+                    FirstName = pe.Employee.FirstName,
+                    LastName = pe.Employee.LastName,
+                }).ToList()
+        };
+    }
+    
+    public static Project ToProjectFromCreateProjectDto(this CreateProjectDto projectDto)
+    {
+        return new Project
+        {
+            Name = projectDto.Name,
+            StartDate = projectDto.StartDate,
+            EndDate = projectDto.EndDate,
+            Priority = projectDto.Priority,
+            CustomerCompanyId = projectDto.CustomerCompanyId,
+            ExecutorCompanyId = projectDto.ExecutorCompanyId,
+            ProjectManagerId = projectDto.ProjectManagerId,
         };
     }
     
