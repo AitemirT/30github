@@ -32,17 +32,27 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddProject(CreateProjectDto createProjectDto)
+    public async Task<IActionResult> AddProject([FromBody] CreateProjectDto createProjectDto)
     {
-        createProjectDto.StartDate = createProjectDto.StartDate.ToUniversalTime();
-        createProjectDto.EndDate = createProjectDto.EndDate.ToUniversalTime();
-        var project = createProjectDto.ToProjectFromCreateProjectDto();
-        var createdProject = await _projectRepository.CreateProjectAsync(project);
-        return createdProject == null ? StatusCode(500, "Не удалось создать проект") : CreatedAtAction(nameof(GetProject), new { id = createdProject.Id }, createdProject); 
+        try
+        {
+            createProjectDto.StartDate = createProjectDto.StartDate.ToUniversalTime();
+            createProjectDto.EndDate = createProjectDto.EndDate.ToUniversalTime();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            var project = createProjectDto.ToProjectFromCreateProjectDto();
+            var createdProject = await _projectRepository.CreateProjectAsync(project);
+            return createdProject == null
+                ? StatusCode(500, "Не удалось создать проект")
+                : CreatedAtAction(nameof(GetProject), new { id = createdProject.Id }, createdProject.ToProjectDto());
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateProject(int id, UpdateProjectDto updateProjectDto)
+    public async Task<IActionResult> UpdateProject(int id, [FromBody] UpdateProjectDto updateProjectDto)
     {
         if(!ModelState.IsValid) return BadRequest(ModelState);
         updateProjectDto.StartDate = updateProjectDto.StartDate.ToUniversalTime();

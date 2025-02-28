@@ -36,6 +36,7 @@ public class ProjectEmployee : ControllerBase
         }
     }
     
+    [HttpDelete("delete")]
     public async Task<IActionResult> DeleteEmployeeFromProject([FromQuery]int projectId, [FromQuery]int employeeId)
     {
         try
