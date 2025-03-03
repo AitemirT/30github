@@ -20,6 +20,7 @@ public class ProjectRepository : IProjectRepository
             .Include(p => p.ExecutorCompany)
             .Include(p => p.CustomerCompany)
             .Include(p => p.ProjectManager)
+            .Include(p => p.Tasks)
             .Include(p => p.ProjectEmployees)
             .ThenInclude(p => p.Employee)
             .ToListAsync();
@@ -31,6 +32,7 @@ public class ProjectRepository : IProjectRepository
             .Include(p => p.ExecutorCompany)
             .Include(p => p.CustomerCompany)
             .Include(p => p.ProjectManager)
+            .Include(p => p.Tasks)
             .Include(p => p.ProjectEmployees)
             .ThenInclude(p => p.Employee)
             .FirstOrDefaultAsync(p => p.Id == id);
@@ -73,6 +75,7 @@ public class ProjectRepository : IProjectRepository
             .Include(p => p.CustomerCompany)
             .Include(p => p.ExecutorCompany)
             .Include(p => p.ProjectEmployees)
+            .Include(p => p.Tasks)
             .FirstOrDefaultAsync(p => p.Id == id);
         if (existingProject == null)
         {
@@ -95,6 +98,7 @@ public class ProjectRepository : IProjectRepository
             .Include(p => p.CustomerCompany)
             .Include(p => p.ExecutorCompany)
             .Include(p => p.ProjectEmployees)
+            .Include(p => p.Tasks)
             .FirstOrDefaultAsync(p => p.Id == id);
         if(project == null) return null;
         _context.ProjectEmployees.RemoveRange(project.ProjectEmployees);

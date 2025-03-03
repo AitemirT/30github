@@ -1,12 +1,14 @@
+using AutoMapper;
 using webApp.DTOs;
 using webApp.DTOs.Employee;
+using webApp.DTOs.Task;
 using webApp.Models;
 
 namespace webApp.Mappers;
 
 public static class ProjectMapper
 {
-    public static ProjectDto ToProjectDto(this Project project)
+    public static ProjectDto ToProjectDto(this Project project, IMapper mapper)
     {
         return new ProjectDto
         {
@@ -27,7 +29,8 @@ public static class ProjectMapper
                     Id = pe.Employee.Id,
                     FirstName = pe.Employee.FirstName,
                     LastName = pe.Employee.LastName,
-                }).ToList()
+                }).ToList(),
+            Tasks = project?.Tasks.Select(t => mapper.Map<TaskDto>(t)).ToList() ?? new List<TaskDto>(),
         };
     }
     

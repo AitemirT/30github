@@ -14,4 +14,5 @@ public class Project
     public Company ExecutorCompany { get; set; }
     public Employee ProjectManager { get; set; }
     public List<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
+    public List<TheTask> Tasks { get; set; } = new List<TheTask>();
 }

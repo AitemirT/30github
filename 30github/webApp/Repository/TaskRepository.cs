@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using webApp.Data;
 using webApp.DTOs.Task;
+using webApp.Helpers;
 using webApp.Models;
 
 namespace webApp.Repository;
@@ -14,13 +15,24 @@ public class TaskRepository : ITaskRepository
         _context = context;
     }
 
-    public async Task<List<TheTask>> GetAllAsync()
+    public async Task<List<TheTask>> GetAllAsync(QueryObj queryObj)
     {
-        return await _context.TheTasks
+        var tasks = _context.TheTasks
             .Include(t => t.Project)
             .Include(t => t.Executor)
             .Include(t => t.Author)
-            .ToListAsync();
+            .AsQueryable();
+        if (queryObj.StatusOfTheTask.HasValue)
+        {
+            tasks = tasks.Where(t => t.StatusOfTheTask == queryObj.StatusOfTheTask.Value);
+        }
+
+        if (queryObj.SortByPriority.HasValue && queryObj.SortByPriority.Value)
+        {
+            tasks = tasks.OrderByDescending(t => t.PriorityOfTheTask);
+        }
+
+        return await tasks.ToListAsync();
     }
 
     public async Task<TheTask?> GetByIdAsync(int id)

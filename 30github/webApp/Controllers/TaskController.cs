@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using webApp.DTOs.Task;
+using webApp.Helpers;
 using webApp.Models;
 using webApp.Repository;
 
@@ -19,9 +20,9 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] QueryObj queryObj)
     {
-        var tasks = await _taskRepository.GetAllAsync();
+        var tasks = await _taskRepository.GetAllAsync(queryObj);
         var taskDto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
         return Ok(taskDto);
     }
@@ -46,6 +47,7 @@ public class TaskController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Put(int id, [FromBody] UpdateTaskDto updateTaskDto)
     {
+        if(updateTaskDto == null) return BadRequest("Данные отсутствуют");
         if (!ModelState.IsValid) return BadRequest();
         var task = await _taskRepository.UpdateAsync(id, updateTaskDto);
         return task == null ? NotFound() : Ok(_mapper.Map<TaskDto>(task));

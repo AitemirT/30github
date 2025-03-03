@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using webApp.DTOs;
 using webApp.Mappers;
@@ -9,17 +10,19 @@ namespace webApp.Controllers;
 public class ProjectController : ControllerBase
 {
     private readonly IProjectRepository _projectRepository;
+    private readonly IMapper _mapper;
 
-    public ProjectController(IProjectRepository projectRepository)
+    public ProjectController(IProjectRepository projectRepository, IMapper mapper)
     {
         _projectRepository = projectRepository;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetProjects()
     {
         var projects = await _projectRepository.GetAllProjectsAsync();
-        var projectDtos = projects.Select(p => p.ToProjectDto());
+        var projectDtos = projects.Select(p => p.ToProjectDto(_mapper));
         return Ok(projectDtos);
     }
 
@@ -27,7 +30,7 @@ public class ProjectController : ControllerBase
     public async Task<IActionResult> GetProject(int id)
     {
         var project = await _projectRepository.GetProjectByIdAsync(id);
-        var projectDto = project.ToProjectDto();
+        var projectDto = project.ToProjectDto(_mapper);
         return projectDto == null ? NotFound() : Ok(projectDto);
     }
 
@@ -43,7 +46,7 @@ public class ProjectController : ControllerBase
             var createdProject = await _projectRepository.CreateProjectAsync(project);
             return createdProject == null
                 ? StatusCode(500, "Не удалось создать проект")
-                : CreatedAtAction(nameof(GetProject), new { id = createdProject.Id }, createdProject.ToProjectDto());
+                : CreatedAtAction(nameof(GetProject), new { id = createdProject.Id }, createdProject.ToProjectDto(_mapper));
         }
         catch (ArgumentException ex)
         {
@@ -58,7 +61,7 @@ public class ProjectController : ControllerBase
         updateProjectDto.StartDate = updateProjectDto.StartDate.ToUniversalTime();
         updateProjectDto.EndDate = updateProjectDto.EndDate.ToUniversalTime();
         var project = await _projectRepository.UpdateProjectAsync(id, updateProjectDto);
-        return project == null ? NotFound() : Ok(project.ToProjectDto());
+        return project == null ? NotFound() : Ok(project.ToProjectDto(_mapper));
     }
 
     [HttpDelete("{id:int}")]
