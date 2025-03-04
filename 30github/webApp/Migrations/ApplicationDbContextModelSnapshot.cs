@@ -476,9 +476,9 @@ namespace webApp.Migrations
                         .IsRequired();
 
                     b.HasOne("webApp.Models.Employee", "Executor")
-                        .WithMany()
+                        .WithMany("Tasks")
                         .HasForeignKey("ExecutorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("webApp.Models.Project", "Project")
@@ -506,6 +506,8 @@ namespace webApp.Migrations
                     b.Navigation("ProjectEmployees");
 
                     b.Navigation("Projects");
+
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("webApp.Models.Project", b =>

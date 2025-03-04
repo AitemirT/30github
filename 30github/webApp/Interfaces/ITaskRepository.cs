@@ -11,4 +11,5 @@ public interface ITaskRepository
     Task<TheTask?> CreateAsync(TheTask task);
     Task<TheTask?> UpdateAsync(int id, UpdateTaskDto updateTaskDto);
     Task<TheTask?> DeleteAsync(int id);
+    Task<TheTask?> FindByNameInProjectAsync(string taskName, int projectId);
 }

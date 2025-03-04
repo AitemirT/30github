@@ -23,6 +23,7 @@ public class TaskController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] QueryObj queryObj)
     {
         var tasks = await _taskRepository.GetAllAsync(queryObj);
+        if(tasks == null) return NotFound();
         var taskDto = _mapper.Map<IEnumerable<TaskDto>>(tasks);
         return Ok(taskDto);
     }
@@ -39,6 +40,8 @@ public class TaskController : ControllerBase
     {
         if(createTaskDto == null) return BadRequest("Данные отсутствуют");
         if (!ModelState.IsValid) return BadRequest(ModelState);
+        var existingTask = await _taskRepository.FindByNameInProjectAsync(createTaskDto.NameOfTask, createTaskDto.ProjectId);
+        if(existingTask != null) return BadRequest("Задача с таким названием уже существует в этом проекте");
         var task = _mapper.Map<TheTask>(createTaskDto);
         var createdTask = await _taskRepository.CreateAsync(task);
         return createdTask == null ? StatusCode(500, "Не удалось создать задачу") : CreatedAtAction(nameof(Get), new { id = createdTask.Id }, _mapper.Map<TaskDto>(createdTask));

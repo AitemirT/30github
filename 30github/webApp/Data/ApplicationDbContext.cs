@@ -25,6 +25,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithOne(c => c.ExecutorCompany)
             .HasForeignKey(c => c.ExecutorCompanyId)
             .OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<TheTask>()
+            .HasOne(t => t.Executor)
+            .WithMany(e => e.Tasks)
+            .HasForeignKey(t => t.ExecutorId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
     
 }

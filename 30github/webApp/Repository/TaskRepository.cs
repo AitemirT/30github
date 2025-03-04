@@ -78,4 +78,10 @@ public class TaskRepository : ITaskRepository
         await _context.SaveChangesAsync();
         return task;
     }
+
+    public async Task<TheTask?> FindByNameInProjectAsync(string taskName, int projectId)
+    {
+        return await _context.TheTasks
+            .FirstOrDefaultAsync(t => t.NameOfTask == taskName && t.ProjectId == projectId);
+    }
 }

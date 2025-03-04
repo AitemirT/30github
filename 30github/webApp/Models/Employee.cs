@@ -9,4 +9,5 @@ public class Employee
     public string Email { get; set; }
     public List<Project> Projects { get; set; } = new List<Project>();
     public List<ProjectEmployee> ProjectEmployees { get; set; } = new List<ProjectEmployee>();
+    public List<TheTask> Tasks { get; set; } = new List<TheTask>();
 }
