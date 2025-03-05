@@ -5,53 +5,51 @@ using webApp.DTOs.Company;
 using webApp.Mappers;
 using webApp.Models;
 using webApp.Repository;
+using webApp.Services;
 
 namespace webApp.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class CompanyController : ControllerBase
 {
-    private readonly ICompanyRepository _companyRepository;
+    private readonly CompanyService _companyService;
 
-    public CompanyController(ICompanyRepository companyRepository)
+    public CompanyController(CompanyService companyService)
     {
-        _companyRepository = companyRepository;
+       _companyService = companyService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetCompanies()
     {
-        var companies = await _companyRepository.GetAllCompaniesAsync();
-        var companiesDto = companies.Select(c => c.ToCompanyDto());
-        return Ok(companiesDto);
+        var companies = await _companyService.GetAllCompaniesAsync();
+        return Ok(companies);
     }
     
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetCompanyById(int id)
     {
-        Company? company = await _companyRepository.GetCompanyByIdAsync(id);
-        return company == null ? NotFound() : Ok(company.ToCompanyDto());
+        var company = await _companyService.GetCompanyByIdAsync(id);
+        return company == null ? NotFound() : Ok(company);
     }
     [HttpPost]
     public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyDto createCompanyDto)
     {
         if(!ModelState.IsValid) return BadRequest();
-        var company = createCompanyDto.ToCompanyFromCreate();
-        var result = await _companyRepository.CreateCompanyAsync(company);
-        return result == null ? StatusCode(500, "Не удалось сохранить компанию") : CreatedAtAction(nameof(GetCompanyById), new { id = company.Id }, result.ToCompanyDto());
+        var company = await _companyService.CreateCompanyAsync(createCompanyDto);
+        return company == null ? StatusCode(500, "Не удалось создать компанию") : CreatedAtAction(nameof(GetCompanyById), new { id = company.Id }, company);
     }
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateCompany(int id, [FromBody] UpdateCompanyDto updateCompanyDto)
     {
         if(!ModelState.IsValid) return BadRequest();
-        var company = await _companyRepository.UpdateCompanyAsync(id, updateCompanyDto);
-        return company == null ? NotFound() : Ok(company.ToCompanyDto());
+        var company = await _companyService.UpdateCompanyAsync(id, updateCompanyDto);
+        return company == null ? NotFound() : Ok(company);
     }
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteCompany(int id)
     {
-        var company = await _companyRepository.DeleteCompanyAsync(id);
-        if(company == null) return NotFound();
-        return NoContent();
+        var company = await _companyService.DeleteCompanyAsync(id);
+        return company ? NoContent() : NotFound();
     }
 }
