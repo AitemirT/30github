@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using webApp.Data;
 using webApp.Mappers;
 using webApp.Repository;
+using webApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectEmployeeRepository, ProjectEmployeeRepository>();
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<CompanyService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
