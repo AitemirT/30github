@@ -20,6 +20,7 @@ builder.Services.AddScoped<IProjectEmployeeRepository, ProjectEmployeeRepository
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<EmployeeService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
