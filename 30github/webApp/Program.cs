@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using webApp.Data;
 using webApp.Mappers;
+using webApp.Models;
 using webApp.Repository;
 using webApp.Services;
 
@@ -21,6 +22,10 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<CompanyService>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<ProjectEmployeeService>();
+builder.Services.AddScoped<TaskService>();
+
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
