@@ -3,35 +3,33 @@ using Microsoft.AspNetCore.Mvc;
 using webApp.DTOs;
 using webApp.Mappers;
 using webApp.Repository;
+using webApp.Services;
 
 namespace webApp.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class ProjectController : ControllerBase
 {
-    private readonly IProjectRepository _projectRepository;
+    private readonly ProjectService _projectService;
     private readonly IMapper _mapper;
 
-    public ProjectController(IProjectRepository projectRepository, IMapper mapper)
+    public ProjectController(ProjectService projectService, IMapper mapper)
     {
-        _projectRepository = projectRepository;
+        _projectService = projectService;
         _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetProjects()
     {
-        var projects = await _projectRepository.GetAllProjectsAsync();
-        var projectDtos = projects.Select(p => p.ToProjectDto(_mapper));
-        return Ok(projectDtos);
+        return Ok(await _projectService.GetProjects());
     }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetProject(int id)
     {
-        var project = await _projectRepository.GetProjectByIdAsync(id);
-        var projectDto = project.ToProjectDto(_mapper);
-        return projectDto == null ? NotFound() : Ok(projectDto);
+        var project = await _projectService.GetProjectById(id);
+        return project == null ? NotFound() : Ok(project);
     }
 
     [HttpPost]
@@ -39,14 +37,13 @@ public class ProjectController : ControllerBase
     {
         try
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             createProjectDto.StartDate = createProjectDto.StartDate.ToUniversalTime();
             createProjectDto.EndDate = createProjectDto.EndDate.ToUniversalTime();
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var project = createProjectDto.ToProjectFromCreateProjectDto();
-            var createdProject = await _projectRepository.CreateProjectAsync(project);
-            return createdProject == null
+            var project = await _projectService.CreateProject(createProjectDto);
+            return project == null
                 ? StatusCode(500, "Не удалось создать проект")
-                : CreatedAtAction(nameof(GetProject), new { id = createdProject.Id }, createdProject.ToProjectDto(_mapper));
+                : CreatedAtAction(nameof(GetProject), new { id = project.Id }, project);
         }
         catch (ArgumentException ex)
         {
@@ -60,14 +57,14 @@ public class ProjectController : ControllerBase
         if(!ModelState.IsValid) return BadRequest(ModelState);
         updateProjectDto.StartDate = updateProjectDto.StartDate.ToUniversalTime();
         updateProjectDto.EndDate = updateProjectDto.EndDate.ToUniversalTime();
-        var project = await _projectRepository.UpdateProjectAsync(id, updateProjectDto);
-        return project == null ? NotFound() : Ok(project.ToProjectDto(_mapper));
+        var project = await _projectService.UpdateProject(id, updateProjectDto);
+        return project == null ? NotFound() : Ok(project);
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteProject(int id)
     {
-        var project = await _projectRepository.DeleteProjectAsync(id);
-        return project == null ? NotFound() : Ok(project);
+        var project = await _projectService.DeleteProject(id);
+        return project ? NoContent() : NotFound();
     }
 }
