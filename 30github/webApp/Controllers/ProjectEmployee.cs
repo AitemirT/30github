@@ -1,16 +1,18 @@
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using webApp.Repository;
+using webApp.Services;
 
 namespace webApp.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class ProjectEmployee : ControllerBase
 {
-    private readonly IProjectEmployeeRepository _projectEmployeeRepository;
+    private readonly ProjectEmployeeService _projectEmployeeService;
 
-    public ProjectEmployee(IProjectEmployeeRepository projectEmployeeRepository)
+    public ProjectEmployee(ProjectEmployeeService projectEmployeeService)
     {
-        _projectEmployeeRepository = projectEmployeeRepository;
+        _projectEmployeeService = projectEmployeeService;
     }
 
     [HttpPost("add")]
@@ -18,13 +20,8 @@ public class ProjectEmployee : ControllerBase
     {
         try
         {
-            if (await _projectEmployeeRepository.ProjectEmployeeExistsAsync(projectId, employeeId))
-            {
-                return BadRequest(new { Message = "Этот сотрудник уже добавлен в данный проект" });
-            }
-
-            await _projectEmployeeRepository.AddEmployeeToProjectAsync(projectId, employeeId);
-            return Ok(new { Message = "Сотрудник успешно добавлен в проект." });
+            string result = await _projectEmployeeService.AddEmployeeToProject(projectId, employeeId);
+            return Ok(new { message = result });
         }
         catch (ArgumentException ex)
         {
@@ -41,8 +38,8 @@ public class ProjectEmployee : ControllerBase
     {
         try
         {
-            await _projectEmployeeRepository.RemoveEmployeeFromProjectAsync(projectId, employeeId);
-            return Ok(new { Message = "Сотрудник успешно удален из проекта." });
+            string result = await _projectEmployeeService.RemoveEmployeeFromProject(projectId, employeeId);
+            return Ok(new { Message = result });
         }
         catch (ArgumentException ex)
         {
