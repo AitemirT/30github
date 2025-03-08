@@ -1,11 +1,13 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webApp.Models;
 
 namespace webApp.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<int>, int>
 {
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     public DbSet<Company> Companies { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Project> Projects { get; set; }

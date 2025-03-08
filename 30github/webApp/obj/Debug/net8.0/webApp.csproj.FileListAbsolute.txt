@@ -116,3 +116,11 @@
 /Users/taitemir/Desktop/30github/30github/webApp/obj/Debug/net8.0/webApp.genruntimeconfig.cache
 /Users/taitemir/Desktop/30github/30github/webApp/obj/Debug/net8.0/ref/webApp.dll
 /Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/AutoMapper.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/taitemir/Desktop/30github/30github/webApp/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
