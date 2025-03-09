@@ -32,6 +32,13 @@ public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<int>
             .WithMany(e => e.Tasks)
             .HasForeignKey(t => t.ExecutorId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        List<IdentityRole<int>> roles = new List<IdentityRole<int>>()
+        {
+            new IdentityRole<int> {Id = 1, Name = "Admin",  NormalizedName = "ADMIN"},
+            new IdentityRole<int> {Id = 2, Name = "User", NormalizedName = "USER"}
+        };
+        builder.Entity<IdentityRole<int>>().HasData(roles);
     }
     
 }
