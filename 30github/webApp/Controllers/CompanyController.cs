@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webApp.Data;
@@ -10,6 +11,7 @@ using webApp.Services;
 namespace webApp.Controllers;
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class CompanyController : ControllerBase
 {
     private readonly CompanyService _companyService;
